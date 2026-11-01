@@ -1,0 +1,71 @@
+============================================
+  Course Categories API — All Endpoints
+============================================
+
+Authentication (Postman):
+    Header: Authorization: Bearer Bv14hwWrhUtMvniw43fASZEVxhPZNE # Expires in 30-11-2026
+    Header: Content-Type: application/json
+
+
+--- Categories ---
+
+# List all categories (with subcategories)
+GET http://local.openedx.io/api/categories/v1/
+
+# Search categories
+GET http://local.openedx.io/api/categories/v1/?search=programming
+
+# Create a category (requires authentication)
+POST http://local.openedx.io/api/categories/v1/
+Body: {"name": "New Category", "slug": "new-category", "description": "...", "parent_category": null, "is_active": true}
+
+
+--- Courses (List & Filter) ---
+
+# List all courses
+GET http://local.openedx.io/api/categories/v1/courses/
+
+# Filter by category
+GET http://local.openedx.io/api/categories/v1/courses/?category=programming
+
+# Filter by organization
+GET http://local.openedx.io/api/categories/v1/courses/?organization=MOHESR
+
+# Search by course title or ID
+GET http://local.openedx.io/api/categories/v1/courses/?search=python
+
+# Filter by active/inactive
+GET http://local.openedx.io/api/categories/v1/courses/?is_active=true
+GET http://local.openedx.io/api/categories/v1/courses/?is_active=false
+
+# Pagination
+GET http://local.openedx.io/api/categories/v1/courses/?page=1&page_size=10
+
+# Combined filters
+GET http://local.openedx.io/api/categories/v1/courses/?category=programming&organization=MOHESR&search=python&is_active=true&page=1&page_size=10
+
+
+--- Course Detail ---
+
+# Get course details
+GET http://local.openedx.io/api/categories/v1/courses/course-v1:MOHESR+IT101+2026/
+GET http://local.openedx.io/api/categories/v1/courses/course-v1:MOHESR+IT103+2026/
+GET http://local.openedx.io/api/categories/v1/courses/course-v1:MOHESR+IT104+2026/
+
+
+--- Course CRUD (Admin only) ---
+
+# Create — assign a course to a category
+POST http://local.openedx.io/api/categories/v1/courses/create/
+Body: {"course_id": "course-v1:MOHESR+IT101+2026", "category_id": 7}
+
+# Update — change course category
+PUT http://local.openedx.io/api/categories/v1/courses/course-v1:MOHESR+IT101+2026/
+Body: {"category_id": 8}
+
+# Remove category assignment — remove course from category
+PUT http://local.openedx.io/api/categories/v1/courses/course-v1:MOHESR+IT101+2026/
+Body: {"category_id": null}
+
+# Delete — remove course from category system
+DELETE http://local.openedx.io/api/categories/v1/courses/course-v1:MOHESR+IT101+2026/
